@@ -9,7 +9,7 @@ import logging
 # Format: "C_PROGRAM_PATH": "TEST_CASE_DIRECTORY"
 
 mappings = {
-    "CsTest2/CsTest2.c": "tc_CsTest2",
+    "Test3/Test3.c": "tc.CSTest3",
     # Add more mappings as needed, e.g.,
     # "AnotherProgram/AnotherProgram.c": "tc_hw2",
 }
