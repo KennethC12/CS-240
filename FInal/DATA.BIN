@@ -1,0 +1,8 @@
+n = 4
+List of records: 
+   (1, "amazon.com")
+   (2, "umb.edu")
+   (3, "leetcode.com")
+   (4, "umb.edu")
+
+S = "umb.edu"

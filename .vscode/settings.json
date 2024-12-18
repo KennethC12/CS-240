@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "MLTable": "yaml",
+    "errno.h": "c",
+    "ctype.h": "c"
+  }
+}

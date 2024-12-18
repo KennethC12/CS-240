@@ -1,12 +1,12 @@
-2024-11-26 18:12:18,020 - INFO - === Starting the C Programs Testing Script ===
+2024-12-17 19:48:39,907 - INFO - === Starting the C Programs Testing Script ===
 
-2024-11-26 18:12:18,020 - INFO - === Testing Test3/Test3.c ===
-2024-11-26 18:12:18,080 - INFO - [+] Compilation succeeded for Test3/Test3.c.
-2024-11-26 18:12:18,080 - INFO - [*] Using test cases from 'tc.CSTest3'.
-2024-11-26 18:12:18,213 - INFO -     [PASS] tc01
-2024-11-26 18:12:18,218 - INFO -     [PASS] tc02
-2024-11-26 18:12:18,218 - INFO -     [SUMMARY] Passed: 2/2, Failed: 0/2
+2024-12-17 19:48:39,907 - INFO - === Testing Option2/OptionalTest2.c ===
+2024-12-17 19:48:39,961 - INFO - [+] Compilation succeeded for Option2/OptionalTest2.c.
+2024-12-17 19:48:39,961 - INFO - [*] Using test cases from 'tc.op'.
+2024-12-17 19:48:40,091 - INFO -     [PASS] tc01
+2024-12-17 19:48:40,093 - INFO -     [PASS] tc02
+2024-12-17 19:48:40,093 - INFO -     [SUMMARY] Passed: 2/2, Failed: 0/2
 
-2024-11-26 18:12:18,218 - INFO -     [CLEANUP] Removed executable 'Test3_exec'.
+2024-12-17 19:48:40,094 - INFO -     [CLEANUP] Removed executable 'OptionalTest2_exec'.
 
-2024-11-26 18:12:18,218 - INFO - === Testing Completed ===
+2024-12-17 19:48:40,094 - INFO - === Testing Completed ===
