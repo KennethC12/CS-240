@@ -1,17 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Define a structure for linked list nodes
 typedef struct Node
 {
-    int value;
-    int original_index;
-    struct Node *next;
+    int value;          // Value of the node
+    int original_index; // Original index of the node before sorting
+    struct Node *next;  // Pointer to the next node
 } Node;
 
 // Function to create a new node
 Node *create_node(int value, int original_index)
 {
-    Node *new_node = (Node *)malloc(sizeof(Node));
+    Node *new_node = (Node *)malloc(sizeof(Node)); // Allocate memory for new node
     new_node->value = value;
     new_node->original_index = original_index;
     new_node->next = NULL;
@@ -24,16 +25,16 @@ void append(Node **head, int value, int original_index)
     Node *new_node = create_node(value, original_index);
     if (*head == NULL)
     {
-        *head = new_node;
+        *head = new_node; // If list is empty, set new node as head
     }
     else
     {
         Node *temp = *head;
         while (temp->next != NULL)
         {
-            temp = temp->next;
+            temp = temp->next; // Traverse to the end of the list
         }
-        temp->next = new_node;
+        temp->next = new_node; // Append new node at the end
     }
 }
 
@@ -45,7 +46,7 @@ void delete_nodes_less_than(Node **head, int X)
 
     while (temp != NULL)
     {
-        if (temp->value < X)
+        if (temp->value < X) // If node value is less than X
         {
             if (prev == NULL)
             { // Node to delete is the head
@@ -55,20 +56,20 @@ void delete_nodes_less_than(Node **head, int X)
             }
             else
             {
-                prev->next = temp->next;
+                prev->next = temp->next; // Remove node from list
                 free(temp);
                 temp = prev->next;
             }
         }
         else
         {
-            prev = temp;
+            prev = temp; // Move to next node
             temp = temp->next;
         }
     }
 }
 
-// Function to swap nodes (used in sorting)
+// Function to swap two nodes (used in sorting)
 void swap(Node *a, Node *b)
 {
     int temp_value = a->value;
@@ -98,12 +99,12 @@ void sort_list(Node *head)
         {
             if (ptr1->value > ptr1->next->value)
             {
-                swap(ptr1, ptr1->next);
+                swap(ptr1, ptr1->next); // Swap adjacent nodes
                 swapped = 1;
             }
             ptr1 = ptr1->next;
         }
-        lptr = ptr1;
+        lptr = ptr1; // Update last sorted position
     } while (swapped);
 }
 
@@ -116,7 +117,7 @@ void print_list(Node *head)
     {
         if (!first)
             printf(",");
-        printf("%d", temp->value);
+        printf("%d", temp->value); // Print sorted values
         first = 0;
         temp = temp->next;
     }
@@ -128,7 +129,7 @@ void print_list(Node *head)
     {
         if (!first)
             printf(",");
-        printf("%d", temp->original_index);
+        printf("%d", temp->original_index); // Print original indices
         first = 0;
         temp = temp->next;
     }
@@ -143,7 +144,7 @@ void free_list(Node *head)
     {
         temp = head;
         head = head->next;
-        free(temp);
+        free(temp); // Free allocated memory for each node
     }
 }
 
@@ -157,7 +158,7 @@ int main()
     // Read the list of integers S
     while (scanf("%d%c", &value, &comma) == 2)
     {
-        append(&head, value, index++);
+        append(&head, value, index++); // Insert values into linked list
         if (comma != ',')
             break;
     }

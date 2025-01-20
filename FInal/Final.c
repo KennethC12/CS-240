@@ -127,58 +127,82 @@ static void writeOutput(Node *head) // Write the output to OUT.BIN
     close(out_fd);
 }
 
-int main() // Main function
+// Main function
+int main()
 {
+    // Open the input file "DATA.BIN" in read-only mode
     int in_fd = open("DATA.BIN", O_RDONLY);
     if (in_fd < 0)
+    {
+        // If the file cannot be opened, exit with an error
         exitError();
+    }
 
+    // Read the number of records from the file
     int n;
     if (read(in_fd, &n, sizeof(int)) != sizeof(int))
     {
+        // If the read operation fails, close the file and exit with an error
         close(in_fd);
         exitError();
     }
 
-    Node *head = NULL; // Initialize the head pointer
+    // Initialize the head pointer of the linked list
+    Node *head = NULL;
     for (int i = 0; i < n; i++)
     {
-        struct RecordData record; // Read the records
+        // Read a record from the file
+        struct RecordData record;
         if (read(in_fd, &record.id, sizeof(int)) != sizeof(int))
         {
+            // If the read operation fails, close the file and exit with an error
             close(in_fd);
             exitError();
         }
         if (read(in_fd, record.title, TITLE_SIZE) != TITLE_SIZE)
         {
+            // If the read operation fails, close the file and exit with an error
             close(in_fd);
             exitError();
         }
+        // Null-terminate the title string
         record.title[TITLE_SIZE - 1] = '\0';
+        // Remove trailing whitespace from the title string
         trimTrailingWhitespace(record.title);
+        // Insert the record into the linked list in sorted order
         insertSorted(&head, record);
     }
 
-    char S[TITLE_SIZE]; // Read the title to remove
+    // Read the title to remove from the file
+    char S[TITLE_SIZE];
     if (read(in_fd, S, TITLE_SIZE) != TITLE_SIZE)
     {
+        // If the read operation fails, close the file and exit with an error
         close(in_fd);
         exitError();
     }
-    close(in_fd); // Close the input file
+    // Close the input file
+    close(in_fd);
+    // Null-terminate the title string
     S[TITLE_SIZE - 1] = '\0';
+    // Remove trailing whitespace from the title string
     trimTrailingWhitespace(S);
-
-    removeTitle(&head, S); // Remove the record with the specified title
+    // Remove the record with the specified title from the linked list
+    removeTitle(&head, S);
+    // Write the modified linked list to the output file
     writeOutput(head);
 
-    // Free memory
+    // Free the memory allocated for the linked list
     while (head)
     {
+        // Store the current node in a temporary pointer
         Node *temp = head;
+        // Move to the next node in the list
         head = head->next;
+        // Free the memory allocated for the current node
         free(temp);
     }
 
+    // Return 0 to indicate successful execution
     return 0;
 }

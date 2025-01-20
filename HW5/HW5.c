@@ -3,7 +3,7 @@
 #include <string.h>
 #include <errno.h>
 
-typedef struct
+typedef struct // Node structure
 {
     int id;
     char *name;
@@ -13,33 +13,33 @@ typedef struct
     int child_capacity;
 } Node;
 
-static Node *nodes = NULL;
+static Node *nodes = NULL; // Array of nodes
 static int N;
 
-static void addChild(int parent, int child)
+static void addChild(int parent, int child) // Add child to parent
 {
-    if (nodes[parent].child_count == nodes[parent].child_capacity)
+    if (nodes[parent].child_count == nodes[parent].child_capacity) // If child count is equal to child capacity
     {
-        int new_cap = (nodes[parent].child_capacity == 0) ? 4 : nodes[parent].child_capacity * 2;
-        nodes[parent].children = realloc(nodes[parent].children, new_cap * sizeof(int));
-        if (!nodes[parent].children)
+        int new_cap = (nodes[parent].child_capacity == 0) ? 4 : nodes[parent].child_capacity * 2; // If child capacity is 0, new capacity is 4, else new capacity is double of child capacity
+        nodes[parent].children = realloc(nodes[parent].children, new_cap * sizeof(int));          // Reallocate memory for children
+        if (!nodes[parent].children)                                                              // If children is NULL
         {
             fprintf(stderr, "Memory allocation error\n");
             exit(1);
         }
-        nodes[parent].child_capacity = new_cap;
+        nodes[parent].child_capacity = new_cap; // Set new capacity
     }
-    nodes[parent].children[nodes[parent].child_count++] = child;
-    nodes[child].parent = parent;
+    nodes[parent].children[nodes[parent].child_count++] = child; // Add child to parent's children array
+    nodes[child].parent = parent;                                // Set child's parent
 }
 
-static void removeChild(int parent, int child)
+static void removeChild(int parent, int child) // Remove child from parent
 {
     // Remove child from parent's children array
     int i;
     for (i = 0; i < nodes[parent].child_count; i++)
     {
-        if (nodes[parent].children[i] == child)
+        if (nodes[parent].children[i] == child) // If child is found
         {
             // Shift elements
             nodes[parent].children[i] = nodes[parent].children[nodes[parent].child_count - 1];
@@ -49,29 +49,29 @@ static void removeChild(int parent, int child)
     }
 }
 
-static int compareByID(const void *a, const void *b)
+static int compareByID(const void *a, const void *b) // Compare by ID
 {
     int A = *(int *)a;
     int B = *(int *)b;
-    return (nodes[A].id - nodes[B].id);
+    return (nodes[A].id - nodes[B].id); // Return difference of IDs
 }
 
-static int compareByName(const void *a, const void *b)
+static int compareByName(const void *a, const void *b) // Compare by name
 {
     int A = *(int *)a;
     int B = *(int *)b;
-    return strcmp(nodes[A].name, nodes[B].name);
+    return strcmp(nodes[A].name, nodes[B].name); // Return difference of names
 }
 
-static void sortChildrenByID(int X)
+static void sortChildrenByID(int X) // Sort children by ID
 {
-    if (nodes[X].child_count > 1)
+    if (nodes[X].child_count > 1) // If child count is greater than 1
     {
         qsort(nodes[X].children, nodes[X].child_count, sizeof(int), compareByID);
     }
 }
 
-static void sortChildrenByName(int X)
+static void sortChildrenByName(int X) // Sort children by name
 {
     if (nodes[X].child_count > 1)
     {
@@ -79,11 +79,11 @@ static void sortChildrenByName(int X)
     }
 }
 
-static void printChildren(int X)
+static void printChildren(int X) // Print children
 {
     for (int i = 0; i < nodes[X].child_count; i++)
     {
-        if (i > 0)
+        if (i > 0) // If i is greater than 0
             printf(",");
         printf("%s", nodes[nodes[X].children[i]].name);
     }
@@ -91,7 +91,7 @@ static void printChildren(int X)
         printf("\n");
 }
 
-static void removeNode(int X)
+static void removeNode(int X) // Remove node
 {
     if (X == 0)
     {
@@ -222,16 +222,16 @@ ios_base:; // no effect, just a label to keep code neat.
 
     // Process commands until EOF
     char cmd[20];
-    while (1)
+    while (1) // Infinite loop
     {
-        int r = scanf("%s", cmd);
+        int r = scanf("%s", cmd); // Read command
         if (r == EOF || r == 0)
             break;
 
-        if (strcmp(cmd, "ADD") == 0)
+        if (strcmp(cmd, "ADD") == 0) // If command is ADD
         {
             int X, Y;
-            if (scanf("%d %d", &X, &Y) != 2)
+            if (scanf("%d %d", &X, &Y) != 2) // Read X and Y
             {
                 fprintf(stderr, "Error reading ADD parameters\n");
                 return 1;
@@ -239,7 +239,7 @@ ios_base:; // no effect, just a label to keep code neat.
             // Add Y as child of X
             addChild(X, Y);
         }
-        else if (strcmp(cmd, "REMOVE") == 0)
+        else if (strcmp(cmd, "REMOVE") == 0) // If command is REMOVE
         {
             int X;
             if (scanf("%d", &X) != 1)
@@ -249,7 +249,7 @@ ios_base:; // no effect, just a label to keep code neat.
             }
             removeNode(X);
         }
-        else if (strcmp(cmd, "MOVE") == 0)
+        else if (strcmp(cmd, "MOVE") == 0) // If command is MOVE
         {
             int X, Y;
             if (scanf("%d %d", &X, &Y) != 2)
@@ -259,7 +259,7 @@ ios_base:; // no effect, just a label to keep code neat.
             }
             moveNode(X, Y);
         }
-        else if (strcmp(cmd, "SORT_ID") == 0)
+        else if (strcmp(cmd, "SORT_ID") == 0) // If command is SORT_ID
         {
             int X;
             if (scanf("%d", &X) != 1)
@@ -269,7 +269,7 @@ ios_base:; // no effect, just a label to keep code neat.
             }
             sortChildrenByID(X);
         }
-        else if (strcmp(cmd, "SORT_NAME") == 0)
+        else if (strcmp(cmd, "SORT_NAME") == 0) // If command is SORT_NAME
         {
             int X;
             if (scanf("%d", &X) != 1)
@@ -279,7 +279,7 @@ ios_base:; // no effect, just a label to keep code neat.
             }
             sortChildrenByName(X);
         }
-        else if (strcmp(cmd, "PRINT") == 0)
+        else if (strcmp(cmd, "PRINT") == 0) // If command is PRINT
         {
             int X;
             if (scanf("%d", &X) != 1)
@@ -291,11 +291,6 @@ ios_base:; // no effect, just a label to keep code neat.
         }
         else
         {
-            // Unknown command, ignore or break
-            // For safety:
-            // fprintf(stderr, "Unknown command: %s\n", cmd);
-            // return 1;
-            // Instead, we ignore unknown commands:
             continue;
         }
     }
